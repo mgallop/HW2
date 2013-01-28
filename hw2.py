@@ -6,11 +6,18 @@ class Portfolio(object):
     self.funds = dict()
     self.cash = 0  
     self.history = []
-  def __repr__(self):
-    return "cash: $" + str(self.cash)
-#    y = for i in self.stocks: print "stocks: %d %s" % (self.stocks[i], i)
-#    z = for j in self.funds: print "funds: %d %s" % (self.funds[j], j)
-  
+#  def __repr__(self):
+#    y = []
+#	z = []
+#	x = "cash: $ %d" % (self.cash)
+#	y.append(for i in self.stocks: print "stocks: %d %s" % (self.stocks[i], i))
+#    z.append(for j in self.funds: print "funds: %d %s" % (self.funds[j], j))
+#    return
+#	  """
+#	  %s \n
+#	  %s \n
+#	  %s \n
+#	  """ % (x, y, z)
   def addCash(self, dollas):
     self.cash += dollas
     self.history.append("Added %d dollars in cash to portfolio" % (dollas))
@@ -26,11 +33,10 @@ class Portfolio(object):
     if self.cash < amount*stock.price:
       return "Zoidy want to buy on margin! But he can't!"
     else:
-      if stock in self.stocks:
-        self[stock] += amount
+      if stock.ticker in self.stocks:
+        self[stock.ticker] += amount
       else:
-        add = {stock.ticker: amount}
-        stock.update(add)
+        self.stocks[stock.ticker] = amount
       self.cash -= amount*stock.price
       self.history.append("Bought %d shares of %s stock for $%d" % (amount, stock.ticker, amount*stock.price))
 
@@ -39,11 +45,10 @@ class Portfolio(object):
     if self.cash < amount:
       return "Would you like to buy some CDS's too? Its people like you who got us into this mess. No funds for you."
     else:
-      if fund in self.funds:
-        self[fund] += amount
+      if fund.ticker in self.funds:
+        self.funds[fund.ticker] += amount
       else:
-        add = {fund.ticker: amount}
-        self.funds.update(add)
+        self.funds[fund.ticker] = amount
       self.cash -= amount
       self.history.append("Bought %d shares of %s mutual fund" % (amount, fund.ticker))
   
@@ -59,8 +64,8 @@ class Portfolio(object):
   def sellStock(self, amount, stock):
     if stock.ticker in self.stocks:
       self.stocks[stock.ticker] -= amount
-      sprice = amount*uniform(self.stock.price * .5, self.stock.price * 1.5) *1.0
-      self.cash += price * amount
+      sprice = amount*uniform(stock.price * .5, stock.price * 1.5)
+      self.cash += sprice * amount
       self.history.append("Sold %d shares f %s stock fund for %r each." %(amount, stock.ticker, sprice))
     else:
       return "You're like the \'ATT\' of people?"
