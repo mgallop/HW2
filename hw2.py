@@ -24,14 +24,14 @@ class Portfolio(object):
   
   def withdrawCash(self, dollas):
     if self.cash < dollas:
-      return "You can't do that!"
+      raise InsufficientFundsError("You must have voted for Obama")
     else:
       self.cash -= dollas
       self.history.append("Withdrew %d dollars in cash from portfolio" % (dollas))
 
   def buyStock(self, amount, stock):
     if self.cash < amount*stock.price:
-      return "Zoidy want to buy on margin! But he can't!"
+      raise InsufficientFundsError("Zoidy want to buy on margin! But he can't!")
     else:
       if stock.ticker in self.stocks:
         self[stock.ticker] += amount
@@ -43,7 +43,7 @@ class Portfolio(object):
 
   def buyMutualFund(self, amount, fund):
     if self.cash < amount:
-      return "Would you like to buy some CDS's too? Its people like you who got us into this mess. No funds for you."
+      raise InsufficientFundsError("The only thing mutual here is your inability to buy this fund.")
     else:
       if fund.ticker in self.funds:
         self.funds[fund.ticker] += amount
@@ -59,7 +59,7 @@ class Portfolio(object):
       self.cash += price * amount
       self.history.append("Sold %d shares f %s mutual fund for %r each." %(amount, fund.ticker, price))
     else:
-      return "Do you have a bridge in Brooklyn to sell me too?"
+      raise InsufficientFundsError("Do you have a bridge in Brooklyn to sell me too?")
   
   def sellStock(self, amount, stock):
     if stock.ticker in self.stocks:
@@ -68,7 +68,7 @@ class Portfolio(object):
       self.cash += sprice * amount
       self.history.append("Sold %d shares f %s stock fund for %r each." %(amount, stock.ticker, sprice))
     else:
-      return "You're like the \'ATT\' of people?"
+      raise InsufficientStocksError("You're like the \'ATT\' of people?")
 class Stock():
   def __init__(self, price, ticker):
     self.price = price
