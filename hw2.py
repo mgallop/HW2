@@ -6,18 +6,28 @@ class Portfolio(object):
     self.funds = dict()
     self.cash = 0  
     self.history = []
-#  def __repr__(self):
-#    y = []
-#	z = []
-#	x = "cash: $ %d" % (self.cash)
-#	y.append(for i in self.stocks: print "stocks: %d %s" % (self.stocks[i], i))
-#    z.append(for j in self.funds: print "funds: %d %s" % (self.funds[j], j))
-#    return
-#	  """
-#	  %s \n
-#	  %s \n
-#	  %s \n
-#	  """ % (x, y, z)
+  def __repr__(self):
+    c = "cash: $%d \n" % (self.cash)
+    if len(self.stocks) == 0:
+      s = ""
+    else:
+      s = "stocks: "
+      for i in self.stocks:
+        if s == "stocks: ":
+          s += "%d %s \n" % (self.stocks[i], i)
+        else: 
+	      s += "        %d %s \n" %(self.stocks[i], i)
+    if len(self.funds) == 0:
+      f = ""
+    else:
+      f = "mutual funds: "
+      for i in self.funds:
+        if f == "mutual funds: ":
+          f += "%d %s \n" % (self.funds[i], i)
+        else: 
+          f += "              %d %s \n" %(self.funds[i], i)
+    return c + s + f	  
+ 
   def addCash(self, dollas):
     self.cash += dollas
     self.history.append("Added %d dollars in cash to portfolio" % (dollas))
@@ -85,5 +95,5 @@ s = Stock(3, "XXX")
 f = MutualFund("Penis")
 portfolio.buyStock(3, s)
 portfolio.buyMutualFund(1, f)
+
 print portfolio.history
-print portfolio
